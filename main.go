@@ -17,21 +17,7 @@ import (
 
 var EmptyJson = []byte("{}")
 
-/*-
- * Example:
- *
- * {
- *     "accept": [
- *         "speedtest",
- *         "bittorrent"
- *     ],
- *     "privacy_can_collect": 0,
- *     "privacy_can_share": 0,
- *     "privacy_informed": 0,
- *     "version": "0.4.17.0"
- * }
- *
- */
+// See README.md
 type Request struct {
 	Accept            []string `json:"accept"`
 	PrivacyCanCollect int      `json:"privacy_can_collect"`
@@ -40,44 +26,13 @@ type Request struct {
 	Version           string   `json:"version"`
 }
 
-/*-
- *
- * Example:
- *
- * {
- *     "available": {
- *         "bittorrent": [
- *             "http://neubot.mlab.mlab1.mil01.measurement-lab.org:8080/"
- *         ],
- *         "speedtest": [
- *             "http://neubot.mlab.mlab1.mil01.measurement-lab.org:8080/speedtest"
- *         ]
- *     },
- *     "update": {
- *         "uri": "http://neubot.org/",
- *         "version": "0.4.15.6"
- *     }
- * }
- *
- */
+// See README.md
 type Response struct {
 	Update    map[string]map[string]string `json:"update"`
 	Available map[string][]string          `json:"available"`
 }
 
-/*-
- * Example:
- *
- * {
- *     "city": "Turin",
- *     "url": "http://neubot.mlab.mlab1.trn01.measurement-lab.org:8080",
- *     "ip": ["194.116.85.211", "2001:7f8:23:307::211"],
- *     "fqdn": "neubot.mlab.mlab1.trn01.measurement-lab.org",
- *     "site": "trn01",
- *     "country": "IT"
- * }
- *
- */
+// See README.md
 type MlabResponse struct {
 	Fqdn string `json:"fqdn"`
 }
