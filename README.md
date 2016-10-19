@@ -1,7 +1,8 @@
 # Baudelaire: a Neubot Master Server
 
 Baudelaire is an implementation of Neubot's master server. It is written in Go
-and it should be compatible with version v0.4.16.x of Neubot's client.
+and it should be compatible with version v0.4.16.x of Neubot's client. It has
+been mainly tested with Go v1.7.1 but should also work with other versions.
 
 ## Usage
 
