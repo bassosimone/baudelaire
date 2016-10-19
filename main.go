@@ -185,7 +185,7 @@ func main() {
 	log.Printf("baudelaire neubot master-server %s starting up", version)
 
 	http.HandleFunc("/rendezvous", rendezvous)
-	err = http.ListenAndServe(":8080", nil)
+	err = http.ListenAndServe(":8888", nil)
 	if err != nil {
 		log.Fatal("cannot listen")
 	}
