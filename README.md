@@ -5,9 +5,10 @@ and it should be compatible with version v0.4.16.x of Neubot's client.
 
 ## Usage
 
-```
+```bash
 go build
-./baudelaire
+./baudelaire --version # Get version number
+./baudelaire           # Run the server
 ```
 
 Log messages are written on the system log by default.

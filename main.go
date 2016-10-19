@@ -12,6 +12,7 @@ import (
 	"log"
 	"log/syslog"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -160,17 +161,28 @@ func rendezvous(w http.ResponseWriter, r *http.Request) {
 	write_response_json(w, 200, our_response_body)
 }
 
+const version = "v0.0.1"
+
 func main() {
+	log.SetFlags(0)
+
+	if len(os.Args) == 2 && os.Args[1] == "--version" {
+		log.Printf("%s", version)
+		os.Exit(0)
+	}
+	if len(os.Args) != 1 {
+		log.Fatal("usage: baudelaire [--version]")
+	}
 
 	// See http://technosophos.com/2013/09/14/using-gos-built-logger-log-syslog.html
+	log.Print("redirecting logs to the system logger")
 	logwriter, err := syslog.New(syslog.LOG_NOTICE, "baudelaire")
 	if err != nil {
 		log.Fatal("cannot initialize syslog")
 	}
 
 	log.SetOutput(logwriter)
-	log.SetFlags(0)
-	log.Printf("baudelaire neubot master-server v0.0.1 starting up")
+	log.Printf("baudelaire neubot master-server %s starting up", version)
 
 	http.HandleFunc("/rendezvous", rendezvous)
 	err = http.ListenAndServe(":8080", nil)
