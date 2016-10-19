@@ -9,7 +9,7 @@ been mainly tested with Go v1.7.1 but should also work with other versions.
 ```bash
 go build
 ./baudelaire --version # Get version number
-./baudelaire           # Run the server
+./baudelaire           # Run the server for testing
 ```
 
 Log messages are written on the system log by default.

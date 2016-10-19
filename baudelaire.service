@@ -1,0 +1,13 @@
+# /usr/local/systemd/system/baudelaire.service
+
+[Unit]
+Description=Baudelaire Neubot Master Server
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+User=nobody
+Group=nogroup
+ExecStart=/usr/local/bin/baudelaire
