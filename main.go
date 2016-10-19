@@ -100,13 +100,23 @@ func new_response() *Response {
 
 func query_mlabns(remote_addr string, our_response *Response) error {
 
+	log.Printf("/rendezvous request from %s", remote_addr)
+
+	if strings.HasPrefix(remote_addr, "[") {
+		// Note: master.neubot.org is IPv4-only therefore by excluding this
+		// case we are only striving for implementation correctness.
+		//
+		// In the hypothesis we need to do IPv6, the transformation we would
+		// need is like: [12::3:4]:567 => [12::3:4] => 12::3:4
+		log.Printf("we do not support IPv6 input")
+		return errors.New("IPv6 not supported")
+	}
+
 	vector := strings.SplitN(remote_addr, ":", 2)
 	if len(vector) != 2 {
 		log.Printf("failed to split remote address")
 		return errors.New("error splitting remote address")
 	}
-
-	// TODO: add support for IPv6 addresses
 
 	res, err := http.Get("https://mlab-ns.appspot.com/neubot?ip=" + vector[0])
 	if err != nil {
