@@ -147,3 +147,44 @@ In case of success, Baudelaire will response with HTTP code equal to `200`
 and a JSON-formatted body compatible with the rendezvous response described
 above. Otherwise, if any operation fails, Baudelaire will set code equal
 to `500` and send as body an empty JSON object (i.e. `{}`).
+
+## Deployment
+
+The Baudelaire binary can be compiled from any machine with Go installed
+by running `go build` or `make` (if `make` is installed).
+
+Once the binary has been compiled, just run `sudo make install` on the
+target system, which MUST be a Debian system. Specifically, this command
+performs the following actions:
+
+1. installs `baudelaire` under `/usr/local/bin`
+
+2. installs `baudelaire.service` (the systemd unit) under the location
+   where user installed units should be (`/usr/local/lib/systemd/system`)
+
+3. installs a custom `rc.local` that:
+
+    1. sets up ports redirection (Baudelaire uses by default port `8080` but
+       the old server used also ports `80` and `9773`)
+
+    2. starts Baudelaire using `systemctl`
+
+After you have run `sudo make install`, you should reboot the system to make
+sure the changes have had effect. The install command should be idempotent so
+you should be able to also use it to upgrade Baudelaire. To get the version
+of the currently installed Baudelaire, run:
+
+```
+baudelaire --version
+```
+
+Note that systemd will take care of running Baudelaire in the background
+and with the privileges of the `nobody` user. This explains why Baudelaire
+itself does not contain code to drop privileges and go background.
+
+As already stated, Baudelaire uses by default the system log, thus you
+can see its log messages by running this command:
+
+```
+sudo tail -f /var/log/syslog
+```
