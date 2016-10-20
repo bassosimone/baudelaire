@@ -1,4 +1,4 @@
-.PHONY: install
+.PHONY: clean install
 
 prefix = /usr/local
 sysconfdir = /etc
@@ -7,6 +7,9 @@ libdir = $(prefix)/lib
 
 baudelaire: main.go
 	go build
+
+clean:
+	rm -rf -- baudelaire
 
 install: baudelaire baudelaire.service rc.local
 	install -d $(bindir)
