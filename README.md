@@ -154,8 +154,8 @@ The Baudelaire binary can be compiled from any machine with Go installed
 by running `go build` or `make` (if `make` is installed).
 
 Once the binary has been compiled, just run `sudo make install` on the
-target system, which MUST be a Debian system. Specifically, this command
-performs the following actions:
+target system, which MUST be a Debian system (we tested it with Debian v8.6).
+Specifically, this command performs the following actions:
 
 1. installs `baudelaire` under `/usr/local/bin`
 
