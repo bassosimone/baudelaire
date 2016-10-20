@@ -7,7 +7,7 @@ Description=Baudelaire Neubot Master Server
 WantedBy=multi-user.target
 
 [Service]
-Type=forking
+Type=simple
 User=nobody
 Group=nogroup
 ExecStart=/usr/local/bin/baudelaire
