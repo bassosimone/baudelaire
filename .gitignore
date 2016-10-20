@@ -25,3 +25,6 @@ _testmain.go
 
 # Final executable
 /baudelaire
+
+# Vagrant stuff
+/.vagrant

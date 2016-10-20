@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
     jessie64.vm.provision "shell", inline: <<-SHELL
       cd /baudelaire
       sudo apt-get install -y golang
-      go build
+      sudo make install
     SHELL
   end
 end
