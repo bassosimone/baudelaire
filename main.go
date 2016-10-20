@@ -165,7 +165,7 @@ func rendezvous(w http.ResponseWriter, r *http.Request) {
 	write_response_json(w, 200, our_response_body)
 }
 
-const version = "v0.0.1"
+const version = "v0.0.2-dev"
 
 func main() {
 	log.SetFlags(0)
