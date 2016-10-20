@@ -36,6 +36,7 @@ type Response struct {
 // See README.md
 type MlabResponse struct {
 	Fqdn string `json:"fqdn"`
+	Country string `json:"country"`
 }
 
 const MaximumBodyLength = 10 * 1024 * 1024
@@ -99,6 +100,9 @@ func query_mlabns(remote_addr string, our_response *Response) error {
 		// was actually longer than MaximumBodyLength so leading to parse error
 		return err
 	}
+
+	log.Printf("rendezvous_server: %s[%s] -> %s", remote_addr,
+			mlab_response.Country, mlab_response.Fqdn)
 
 	our_response.Available["speedtest"] = []string{
 		"http://" + mlab_response.Fqdn + ":8080/speedtest",
