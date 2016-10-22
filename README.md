@@ -17,15 +17,13 @@ Log messages are written on the system log by default.
 ## The rendezvous protocol
 
 Neubot uses the `rendezvous` protocol to communicate with its master server
-periodically. Historically this communication used XML but since Neubot v0.4
-released on July, 2011, JSON is used.
-
-Baudelaire does not support receiving or sending messages encoded in XML and
-thus is *for sure* not compatible with Neubot v0.3.x clients.
+periodically. Historically this communication used XML but since Neubot v0.4.10
+released on March 15, 2012, JSON is used. Earlier clients using XML are not
+supported by this Neubot master server anymore.
 
 A Neubot client connects to Neubot's master server and sends the following
 message to the `/rendezvous` API endpoint (the method SHOULD be `POST`, but
-the code also accepts requests with the GET method, for historical reasons).
+the code also accepts requests with the `GET` method, for historical reasons).
 
 ```JSON
  {
@@ -85,7 +83,7 @@ but doing that is not mandatory (and, in fact, Baudelaire *never* provides the
 client with any update information whatsoever). Otherwise, *update* should be
 included as an empty JSON object (i.e. `{}`).
 
-The server SHOULD fill the *avalable* map with key, value pairs where the key
+The server SHOULD fill the *available* map with (key, value) pairs where the key
 should be the name of a test specified in the incoming *available* message and
 the values should be lists of URLs to be used to run specific tests.
 
@@ -125,8 +123,10 @@ cause a `404` error to be returned.
 
 Specifically, in its `/rendezvous` handler, Baudelaire will use the client's
 IP address `$ip` to send an HTTP GET request for `/neubot?ip=$ip` at
-`mlab-ns.appspot.com` on port 80. The response received by mlab-ns would
-probably look like this:
+`mlab-ns.appspot.com` on port 80. Note that Baudelaire does not support
+IPv6 (and Neubot's master server is a IPv4-only machine).
+
+The response received by mlab-ns would look like this:
 
 ```JSON
  {
@@ -143,7 +143,7 @@ Of this response, Baudelaire will only care of the `fqdn` field and will in
 particular use it to assemble a rendezvous response as indicated above,
 by properly filling the *available* map.
 
-In case of success, Baudelaire will response with HTTP code equal to `200`
+In case of success, Baudelaire will respond with HTTP code equal to `200`
 and a JSON-formatted body compatible with the rendezvous response described
 above. Otherwise, if any operation fails, Baudelaire will set code equal
 to `500` and send as body an empty JSON object (i.e. `{}`).
@@ -151,7 +151,12 @@ to `500` and send as body an empty JSON object (i.e. `{}`).
 ## Deployment
 
 The Baudelaire binary can be compiled from any machine with Go installed
-by running `go build` or `make` (if `make` is installed).
+by running `go build` or `make` (if `make` is installed). It can be cross
+compiled for Linux and x86_systems by running:
+
+```
+GOARCH=amd GOOS=linux go build
+```
 
 Once the binary has been compiled, just run `sudo make install` on the
 target system, which MUST be a Debian system (we tested it with Debian v8.6).
