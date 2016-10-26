@@ -25,6 +25,8 @@ type report_update_response_t struct {
 
 func Update(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
+	// TODO: prevent concurrent updates on the same report-id
+
 	report_id := ps.ByName("id")
 	fpath, err := map_report_id_to_path(report_id)
 	if err != nil {
