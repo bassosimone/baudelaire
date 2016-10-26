@@ -7,9 +7,9 @@ been mainly tested with Go v1.7.1 but should also work with other versions.
 ## Usage
 
 ```bash
-go build
-./baudelaire --version # Get version number
-./baudelaire           # Run the server for testing
+GOPATH=$HOME go get -u -v
+$HOME/bin/baudelaire --version # Get version number
+$HOME/bin/baudelaire           # Run the server for testing
 ```
 
 Log messages are written on the system log by default.
@@ -155,7 +155,7 @@ by running `go build` or `make` (if `make` is installed). It can be cross
 compiled for Linux and x86_systems by running:
 
 ```
-GOARCH=amd64 GOOS=linux go build
+GOPATH=$HOME GOARCH=amd64 GOOS=linux go build
 ```
 
 Once the binary has been compiled, just run `sudo make install` on the
