@@ -155,7 +155,7 @@ by running `go build` or `make` (if `make` is installed). It can be cross
 compiled for Linux and x86_systems by running:
 
 ```
-GOARCH=amd GOOS=linux go build
+GOARCH=amd64 GOOS=linux go build
 ```
 
 Once the binary has been compiled, just run `sudo make install` on the
