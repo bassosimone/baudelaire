@@ -12,7 +12,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"path"
 )
 
 type report_update_t struct {
@@ -27,21 +26,10 @@ type report_update_response_t struct {
 func Update(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	report_id := ps.ByName("id")
-	if !matches_regexp(report_id_re, report_id) {
-		// Log message already printed by the matches_regexp() func
-		common.WriteResponseJson(w, 500, common.EmptyJson)
-		return
-	}
-	fpath := path.Join("data", report_id)
-	statbuf, err := os.Lstat(fpath)
+	fpath, err := map_report_id_to_path(report_id)
 	if err != nil {
-		log.Printf("cannot stat report")
-		common.WriteResponseJson(w, 404, common.EmptyJson)
-		return
-	}
-	if !statbuf.Mode().IsRegular() {
-		log.Printf("not a regular file")
-		common.WriteResponseJson(w, 404, common.EmptyJson)
+		// Log message already printed by the above function
+		common.WriteResponseJson(w, 500, common.EmptyJson)
 		return
 	}
 

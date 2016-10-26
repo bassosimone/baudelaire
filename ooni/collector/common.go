@@ -5,8 +5,11 @@
 package collector
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"os"
+	"path"
 	"regexp"
 	"time"
 )
@@ -35,4 +38,23 @@ func matches_regexp(pattern string, s string) bool {
 	}
 
 	return true
+}
+
+func map_report_id_to_path(report_id string) (string, error) {
+	if !matches_regexp(report_id_re, report_id) {
+		// Log message already printed by the matches_regexp() func
+		return "", errors.New("matches_regexp() failed")
+	}
+	fpath := path.Join("data", report_id)
+	statbuf, err := os.Lstat(fpath)
+	if err != nil {
+		log.Printf("cannot stat report")
+		return "", err
+	}
+	if !statbuf.Mode().IsRegular() {
+		log.Printf("not a regular file")
+		return "", err
+	}
+
+	return fpath, nil
 }
