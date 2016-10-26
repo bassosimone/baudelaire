@@ -5,6 +5,7 @@
 package main
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"github.com/neubot/baudelaire/neubot/rendezvous"
 	"log"
 	"log/syslog"
@@ -35,8 +36,15 @@ func main() {
 	log.SetOutput(logwriter)
 	log.Printf("baudelaire neubot master-server %s starting up", version)
 
-	http.HandleFunc("/rendezvous", rendezvous.Handle)
-	err = http.ListenAndServe(":8080", nil)
+	router := httprouter.New()
+	router.POST("/rendezvous", rendezvous.Handle)
+	router.GET("/rendezvous",
+		func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+			log.Printf("received GET request for /rendezvous")
+			rendezvous.Handle(w, r, ps)
+		})
+
+	err = http.ListenAndServe(":8080", router)
 	if err != nil {
 		log.Fatal("cannot listen")
 	}

@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/neubot/baudelaire/common"
+	"github.com/julienschmidt/httprouter"
 	"io"
 	"io/ioutil"
 	"log"
@@ -97,7 +98,7 @@ func query_mlabns(remote_addr string, our_response *response_t) error {
 	return nil
 }
 
-func Handle(w http.ResponseWriter, r *http.Request) {
+func Handle(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	reader := http.MaxBytesReader(w, r.Body, common.MaximumBodyLength)
 	request_body, err := ioutil.ReadAll(reader)
