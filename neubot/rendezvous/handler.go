@@ -7,8 +7,8 @@ package rendezvous
 import (
 	"encoding/json"
 	"errors"
-	"github.com/neubot/baudelaire/common"
 	"github.com/julienschmidt/httprouter"
+	"github.com/neubot/baudelaire/common"
 	"io"
 	"io/ioutil"
 	"log"
