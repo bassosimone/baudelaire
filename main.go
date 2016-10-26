@@ -6,6 +6,7 @@ package main
 
 import (
 	"github.com/julienschmidt/httprouter"
+	"github.com/neubot/baudelaire/common"
 	"github.com/neubot/baudelaire/neubot/rendezvous"
 	"github.com/neubot/baudelaire/ooni/collector"
 	"log"
@@ -14,13 +15,11 @@ import (
 	"os"
 )
 
-const version = "v0.0.2-dev"
-
 func main() {
 	log.SetFlags(0)
 
 	if len(os.Args) == 2 && os.Args[1] == "--version" {
-		log.Printf("%s", version)
+		log.Printf("%s", common.Version)
 		os.Exit(0)
 	}
 	if len(os.Args) != 1 {
@@ -35,7 +34,7 @@ func main() {
 	}
 
 	log.SetOutput(logwriter)
-	log.Printf("baudelaire neubot master-server %s starting up", version)
+	log.Printf("baudelaire neubot master-server %s starting up", common.Version)
 
 	router := httprouter.New()
 

@@ -28,3 +28,7 @@ _testmain.go
 
 # Vagrant stuff
 /.vagrant
+
+# OONI backend stuff
+/archive
+/data
