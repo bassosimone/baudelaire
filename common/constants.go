@@ -6,4 +6,4 @@ package common
 
 const MaximumBodyLength = 10 * 1024 * 1024
 
-const Version = "0.0.2-dev"
+const Version = "0.0.2-alpha"

@@ -11,8 +11,5 @@
 #
 # By default this script does nothing.
 
-for p in 80 9773; do
-  iptables -A PREROUTING -t nat -p tcp --dport $p -j REDIRECT --to-port 8080
-done
 systemctl start baudelaire
 exit 0
