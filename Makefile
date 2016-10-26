@@ -1,20 +1,17 @@
 .PHONY: clean install
 
-prefix = /usr/local
-sysconfdir = /etc
-bindir = $(prefix)/bin
-libdir = $(prefix)/lib
+BAUDELAIRE = baudelaire-linux-amd64
+DEPLOY_HOST = # To be set from the command line
 
-baudelaire: main.go
-	go build
+$(BAUDELAIRE): main.go
+	GOARCH=amd64 GOOS=linux go build -v -o $(BAUDELAIRE)
 
 clean:
-	rm -rf -- baudelaire
+	rm -rf -- $(BAUDELAIRE) baudelaire
 
-install: baudelaire baudelaire.service rc.local
-	install -d $(bindir)
-	install -v baudelaire $(bindir)
-	install -v -d $(libdir)/systemd/system
-	install -v -m644 baudelaire.service $(libdir)/systemd/system
-	install -d $(sysconfdir)
-	install -v rc.local $(sysconfdir)
+deploy: $(BAUDELAIRE) baudelaire.service deploy.sh rc.local
+	if test -z "$(DEPLOY_HOST)"; then                                      \
+	  echo "usage: make deploy DEPLOY_HOST=1.2.3.4" 1>&2;                  \
+	  exit 1;                                                              \
+	fi
+	scp $(BAUDELAIRE) baudelaire.service deploy.sh rc.local $(DEPLOY_HOST):

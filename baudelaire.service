@@ -10,4 +10,4 @@ WantedBy=multi-user.target
 Type=simple
 User=nobody
 Group=nogroup
-ExecStart=/usr/local/bin/baudelaire
+ExecStart=/usr/local/bin/baudelaire -d /var/lib/neubot -p 8080 -p 9773 -p 80
