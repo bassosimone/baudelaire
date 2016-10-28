@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"github.com/julienschmidt/httprouter"
 	"github.com/neubot/baudelaire/common"
+	"github.com/neubot/bernini"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -80,7 +81,7 @@ func Create(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	response.BackendName = "baudelaire"
 	response.BackendVersion = common.Version
 	response.ReportId = iso8601() + "_" + request.ProbeAsn + "_" +
-		string(common.RandByteMaskingImproved(50))
+		string(bernini.RandByteMaskingImproved(50))
 	response.SupportedFormats = []string{"json"}
 
 	err = os.MkdirAll("data", 0755)

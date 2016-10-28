@@ -10,9 +10,9 @@ import (
 	"github.com/neubot/baudelaire/common"
 	"github.com/neubot/baudelaire/neubot/rendezvous"
 	"github.com/neubot/baudelaire/ooni/collector"
+	"github.com/neubot/bernini"
 	"github.com/pborman/getopt"
 	"log"
-	"log/syslog"
 	"net/http"
 	"os"
 )
@@ -22,7 +22,8 @@ const usage = `usage: baudelaire [-d directory] [-p port] [[-p port] ...]
        baudelaire [--help]`
 
 func main() {
-	log.SetFlags(0)
+	bernini.InitRng()
+	bernini.InitLogger()
 
 	if len(os.Args) == 2 && os.Args[1] == "--version" {
 		log.Printf("%s", common.Version)
@@ -54,13 +55,10 @@ func main() {
 	}
 
 	// See http://technosophos.com/2013/09/14/using-gos-built-logger-log-syslog.html
-	log.Print("redirecting logs to the system logger")
-	logwriter, err := syslog.New(syslog.LOG_NOTICE, "baudelaire")
+	err := bernini.UseSyslog()
 	if err != nil {
 		log.Fatal("cannot initialize syslog")
 	}
-
-	log.SetOutput(logwriter)
 	log.Printf("baudelaire neubot master-server %s starting up", common.Version)
 
 	router := httprouter.New()
