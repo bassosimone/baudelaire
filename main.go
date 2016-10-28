@@ -59,7 +59,7 @@ func main() {
 	if err != nil {
 		log.Fatal("cannot initialize syslog")
 	}
-	log.Printf("baudelaire neubot master-server %s starting up", common.Version)
+	log.Printf("baudelaire server %s starting up", common.Version)
 
 	router := httprouter.New()
 	router.POST("/rendezvous", rendezvous.Handle)
