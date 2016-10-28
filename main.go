@@ -25,14 +25,7 @@ func main() {
 	bernini.InitRng()
 	bernini.InitLogger()
 
-	if len(os.Args) == 2 && os.Args[1] == "--version" {
-		log.Printf("%s", common.Version)
-		os.Exit(0)
-	}
-	if len(os.Args) == 2 && os.Args[1] == "--help" {
-		log.Printf("%s", usage)
-		os.Exit(0)
-	}
+	bernini.GetoptVersionAndHelp(common.Version, usage)
 
 	ports := getopt.List('p', "Set ports where to list")
 	run_path := getopt.String('d', "", "Set runtime directory")
@@ -54,11 +47,7 @@ func main() {
 		}
 	}
 
-	// See http://technosophos.com/2013/09/14/using-gos-built-logger-log-syslog.html
-	err := bernini.UseSyslog()
-	if err != nil {
-		log.Fatal("cannot initialize syslog")
-	}
+	bernini.UseSyslogOrDie("baudelaire")
 	log.Printf("baudelaire server %s starting up", common.Version)
 
 	router := httprouter.New()
